@@ -19,7 +19,8 @@
       padding: 24px;
       color: #f3f4f6;
       position: relative;
-      overflow: hidden;
+      overflow-x: hidden;
+      overflow-y: auto;
     }
 
     /* Floating bubbles background */
@@ -491,7 +492,7 @@
         </div>
         <p class="method-description">Send Bitcoin directly to our wallet address.</p>
         <div class="wallet-address">
-          <span id="btcAddress">1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa</span>
+          <span id="btcAddress">bc1qzw9pl7mn4j2x9jkumseywlf38s4w5tm8lxnlgr</span>
           <div class="button-group">
             <button class="copy-btn" onclick="copyAddress('btcAddress')">Copy</button>
             <button class="qr-btn" onclick="showQR('btcAddress', 'Bitcoin')">QR</button>
@@ -507,7 +508,7 @@
         </div>
         <p class="method-description">Send Ethereum or ERC-20 tokens to our wallet.</p>
         <div class="wallet-address">
-          <span id="ethAddress">0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb</span>
+          <span id="ethAddress">0xAf4a8DcaBEFE7D5019e92464535f061949fCB643</span>
           <div class="button-group">
             <button class="copy-btn" onclick="copyAddress('ethAddress')">Copy</button>
             <button class="qr-btn" onclick="showQR('ethAddress', 'Ethereum')">QR</button>
@@ -523,7 +524,7 @@
         </div>
         <p class="method-description">Fast and low-cost transactions with Litecoin.</p>
         <div class="wallet-address">
-          <span id="ltcAddress">LYWKqJhtPeGyiDL6RtxAbRGsNynMwzXqQG</span>
+          <span id="ltcAddress">Lc6D7C4Z5tFvKcu4eSC9d14vzjxn7t4Rex</span>
           <div class="button-group">
             <button class="copy-btn" onclick="copyAddress('ltcAddress')">Copy</button>
             <button class="qr-btn" onclick="showQR('ltcAddress', 'Litecoin')">QR</button>
@@ -539,7 +540,7 @@
         </div>
         <p class="method-description">High-speed blockchain with minimal fees.</p>
         <div class="wallet-address">
-          <span id="solAddress">7EqQdEUpy4xyzGFqJ8JXshWz7MtYbCp5nLfAQzXGXxFT</span>
+          <span id="solAddress">6PUWbrJMcmJJEDN3YGkDEjDx7enPiL9T9VE9a3st6Lw2</span>
           <div class="button-group">
             <button class="copy-btn" onclick="copyAddress('solAddress')">Copy</button>
             <button class="qr-btn" onclick="showQR('solAddress', 'Solana')">QR</button>
@@ -548,20 +549,6 @@
       </div>
 
       <!-- Monero -->
-      <div class="donation-method">
-        <div class="method-header">
-          <span class="method-icon">ɱ</span>
-          <span class="method-title">Monero (XMR)</span>
-        </div>
-        <p class="method-description">Privacy-focused donations via Monero.</p>
-        <div class="wallet-address">
-          <span id="xmrAddress">48edfHu7V9Z84YzzMa6fUueoELZ9ZRXq9VetWzYGzKt52XU5xvqgzYnDK9URnRZrRhLnKL1RmU3V5xqZb3zYGGYNJPJ3K8Y</span>
-          <div class="button-group">
-            <button class="copy-btn" onclick="copyAddress('xmrAddress')">Copy</button>
-            <button class="qr-btn" onclick="showQR('xmrAddress', 'Monero')">QR</button>
-          </div>
-        </div>
-      </div>
     </div>
 
     <div class="status" id="status"></div>
@@ -611,23 +598,33 @@
       const qrTitle = document.getElementById('qrTitle');
       
       // Clear previous QR code
-      canvas.getContext('2d').clearRect(0, 0, canvas.width, canvas.height);
+      const ctx = canvas.getContext('2d');
+      canvas.width = 250;
+      canvas.height = 250;
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
       
       // Set title and address
       qrTitle.textContent = cryptoName + ' Address';
       qrAddress.textContent = address;
       
-      // Generate QR code
-      QRCode.toCanvas(canvas, address, {
+      // Generate QR code using QRCode constructor
+      const tempDiv = document.createElement('div');
+      new QRCode(tempDiv, {
+        text: address,
         width: 250,
-        margin: 2,
-        color: {
-          dark: '#000000',
-          light: '#FFFFFF'
-        }
-      }, function (error) {
-        if (error) console.error(error);
+        height: 250,
+        colorDark: '#000000',
+        colorLight: '#FFFFFF',
+        correctLevel: QRCode.CorrectLevel.H
       });
+      
+      // Wait for QR to generate, then draw to canvas
+      setTimeout(() => {
+        const img = tempDiv.querySelector('img');
+        if (img) {
+          ctx.drawImage(img, 0, 0);
+        }
+      }, 100);
       
       // Show modal
       modal.classList.add('active');
