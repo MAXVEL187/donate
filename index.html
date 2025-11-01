@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Donate — 05050101.xyz</title>
+  <link rel="icon" href="/favicon.ico" />
+  <style>
+    :root{
+      --bg:#0b0c0d;
+      --card:#0d0f10;
+      --muted:#9aa3a8;
+      --accent:#8be9fd;
+      --radius:12px;
+      --maxw:900px;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, "Roboto Mono", "Segoe UI Mono", monospace;
+      color-scheme: dark;
+    }
+    html,body{height:100%;margin:0;background:linear-gradient(180deg,#050506 0%, var(--bg) 100%);font-family:Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;font-size:15px;color:#e6eef3;line-height:1.5}
+    .wrap{max-width:var(--maxw);margin:36px auto;padding:20px;}
+    h1{margin-bottom:12px;font-size:20px;}
+    .card{background:var(--card);padding:22px;border-radius:var(--radius);border:1px solid rgba(255,255,255,0.02);box-shadow: 0 10px 40px rgba(2,6,8,0.6);margin-bottom:20px;}
+    .crypto-card{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:20px;padding:16px;}
+    .crypto-info{flex:1;min-width:200px;}
+    .crypto-name{font-weight:700;font-size:16px;margin-bottom:6px;}
+    .crypto-address{font-family:var(--mono);background:rgba(255,255,255,0.02);padding:6px 8px;border-radius:8px;word-break:break-all;}
+    .btn-copy{margin-top:6px;padding:6px 12px;border-radius:8px;border:none;background:var(--accent);color:#0b0c0d;font-weight:600;cursor:pointer;font-size:13px;}
+    .qr{width:120px;height:120px;background:linear-gradient(135deg,var(--card),#111315);border-radius:12px;display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:12px;}
+    .footer{color:var(--muted);font-size:13px;margin-top:20px;border-top:1px dashed rgba(255,255,255,0.02);padding-top:14px;text-align:center;}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>Support the Service — Donate</h1>
+
+    <div class="card crypto-card">
+      <div class="crypto-info">
+        <div class="crypto-name">Bitcoin (BTC)</div>
+        <div class="crypto-address" id="btc-address">bc1qexampleaddress1234567890</div>
+        <button class="btn-copy" onclick="copyAddress('btc-address')">Copy Address</button>
+      </div>
+      <div class="qr">QR Code BTC</div>
+    </div>
+
+    <div class="card crypto-card">
+      <div class="crypto-info">
+        <div class="crypto-name">Litecoin (LTC)</div>
+        <div class="crypto-address" id="ltc-address">Lexampleaddress1234567890</div>
+        <button class="btn-copy" onclick="copyAddress('ltc-address')">Copy Address</button>
+      </div>
+      <div class="qr">QR Code LTC</div>
+    </div>
+
+    <div class="card crypto-card">
+      <div class="crypto-info">
+        <div class="crypto-name">Solana (SOL)</div>
+        <div class="crypto-address" id="sol-address">ExampleSolanaAddress1234567890</div>
+        <button class="btn-copy" onclick="copyAddress('sol-address')">Copy Address</button>
+      </div>
+      <div class="qr">QR Code SOL</div>
+    </div>
+
+    <div class="footer">
+      © SUBDOMAIN.05050101.xyz — Hosted by Maxvel
+    </div>
+  </div>
+
+  <script>
+    function copyAddress(id) {
+      const addr = document.getElementById(id).innerText;
+      navigator.clipboard.writeText(addr).then(() => {
+        alert("Address copied to clipboard!");
+      });
+    }
+  </script>
+</body>
+</html>
